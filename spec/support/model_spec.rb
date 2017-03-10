@@ -65,4 +65,63 @@ RSpec.shared_examples "a model" do
       expect(m.id).to eq '123'
     end
   end
+
+  describe '#create' do
+    it 'can create a model (including saving it on the server)' do
+      body = { gender: 'female' }
+      expect(described_class.connection).to receive(:run).with(:post, described_class.endpoint, body, {}).and_return(instance_double('Faraday::Response', body: { _id: '123', gender: 'female' }))
+
+      m = described_class.create(body)
+      expect(m).to be_instance_of(described_class)
+    end
+  end
+
+  describe '#persisted?' do
+
+    context 'when model has not been saved' do
+      it 'returns false' do
+        model = described_class.new
+        expect(model.persisted?).to be(false)
+      end
+    end
+
+    context 'when model has been saved' do
+      it 'returns true' do
+        model = described_class.new
+        model._id = '123'
+        expect(model.persisted?).to be(true)
+      end
+    end
+
+  end
+
+  describe '#save' do
+    context 'when model is already persisted' do
+      it 'sends a PUT and updates the current model' do
+        body = { _id: '123', gender: 'female' }
+        expect(described_class.connection).to receive(:run)
+                                                .with(:put, described_class.endpoint + '/' + body[:_id], body, {})
+                                                .and_return(instance_double('Faraday::Response', body: { _id: '123', gender: 'female' }))
+
+        model = described_class.new(_id: '123', gender: 'male')
+        model.gender = 'female'
+        model.save
+      end
+    end
+
+    context 'when model is not persisted' do
+      it 'sends a POST and updates the current model' do
+        body = { gender: 'female' }
+        expect(described_class.connection).to receive(:run)
+                                                .with(:post, described_class.endpoint, body, {})
+                                                .and_return(instance_double('Faraday::Response', body: { _id: '123', gender: 'female' }))
+
+        model = described_class.new(gender: 'female')
+        model.save
+        expect(model.id).to eq('123')
+        expect(model.persisted?).to be(true)
+      end
+    end
+  end
+
 end

@@ -31,6 +31,10 @@ module MatconClient
       attributes.reject {|attr| attr[0] == '_' && attr != '_id' }.to_json
     end
 
+    def persisted?
+      has_attribute?(:_id) && @attributes[:_id].present?
+    end
+
     class << self
 
       extend Forwardable
@@ -38,6 +42,10 @@ module MatconClient
 
       def find(id)
         requestor.get(id)
+      end
+
+      def create(attrs)
+        requestor.post(nil, attrs)
       end
 
       def from_json(json)

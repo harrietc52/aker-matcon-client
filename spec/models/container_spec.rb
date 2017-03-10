@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe MatconClient::Models::Container do
+describe MatconClient::Container do
 
   it_behaves_like "a model"
 
@@ -10,7 +10,7 @@ describe MatconClient::Models::Container do
 
   context "when a container is initialised with slots" do
   	let (:container) do
-  		MatconClient::Models::Container.new(
+  		MatconClient::Container.new(
   			slots: [
   				{ address: 'A:1' },
   				{ address: 'A:2', material: 'bananas' },

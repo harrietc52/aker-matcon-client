@@ -9,7 +9,7 @@ module MatconClient
     			@material_id = mat
     			@material = nil
     		elsif mat.is_a? Hash
-    			@material = MatconClient::Models::Material.new(mat)
+    			@material = MatconClient::Material.new(mat)
     			@material_id = @material.id
     		end
     	end

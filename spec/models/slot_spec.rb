@@ -62,7 +62,7 @@ describe MatconClient::Slot do
 		end
 
 		it "creates a material object from the hash" do
-			expect(slot.material).to be_instance_of(MatconClient::Models::Material)
+			expect(slot.material).to be_instance_of(MatconClient::Material)
 		end
 
 		it "should not be empty" do

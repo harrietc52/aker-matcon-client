@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe MatconClient::Models::Material do
+describe MatconClient::Material do
 
   it_behaves_like "a model"
 

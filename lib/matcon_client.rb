@@ -4,7 +4,6 @@ require 'active_support/all'
 require 'faraday'
 
 module MatconClient
-  autoload :Models,                  'matcon_client/models'
   autoload :Connection,              'matcon_client/connection'
   autoload :Query,                   'matcon_client/query'
   autoload :Requestor,               'matcon_client/requestor'
@@ -12,5 +11,8 @@ module MatconClient
   autoload :Middleware,              'matcon_client/middleware'
   autoload :ResponseHandlerFactory,  'matcon_client/response_handler_factory'
   autoload :ResultSet,               'matcon_client/result_set'
-  autoload :Slot,					 'matcon_client/models/slot'
+  autoload :Model,                   'matcon_client/models/model'
+  autoload :Slot,					           'matcon_client/models/slot'
+  autoload :Container,               'matcon_client/models/container'
+  autoload :Material,                'matcon_client/models/material'
 end

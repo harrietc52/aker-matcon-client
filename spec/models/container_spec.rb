@@ -2,6 +2,7 @@ require "spec_helper"
 
 describe MatconClient::Container do
 
+
   it_behaves_like "a model"
 
   it "has the correct endpoint" do
@@ -27,7 +28,22 @@ describe MatconClient::Container do
 
     it "should have material_ids" do
     	expect(container.material_ids).to eq ['bananas', 'meringue']
-	end
+	  end
+  end
+
+  context "when a container has multiple slots" do
+    let (:material) { instance_double('MatconClient::Material', id: '123' )}
+    let (:container) do
+      MatconClient::Container.new(
+        slots: [
+          { address: 'A:1', material: nil },
+          { address: 'A:2', material_id: '234' },
+          { address: 'A:3', material_id: '345' },
+          { address: 'A:4', material: material },
+        ]
+      )
+    end
+
   end
 
 end

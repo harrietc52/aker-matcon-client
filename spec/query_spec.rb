@@ -76,14 +76,14 @@ describe MatconClient::Query do
 
     it 'sets the value of where' do
       @query.where(lastname: "Doe")
-      expect(@query.to_s).to eql("where={\"lastname\": \"Doe\"}")
+      expect(@query.to_s).to eql("where={\"lastname\":\"Doe\"}")
     end
 
     context 'when Hash has nested params' do
 
       it 'sets the value of "where" to a String with all its keys as Strings' do
         @query.where(born: { "$gte": "Wed, 25 Feb 1987 17:00:00 GMT"} )
-        expect(@query.to_s).to eql("where={\"born\": {\"$gte\": \"Wed, 25 Feb 1987 17:00:00 GMT\"}}")
+        expect(@query.to_s).to eql("where={\"born\":{\"$gte\":\"Wed, 25 Feb 1987 17:00:00 GMT\"}}")
       end
     end
 
@@ -102,14 +102,14 @@ describe MatconClient::Query do
     context 'when a Hash is passed in' do
       it 'sets the value of projection' do
         @query.projection(firstname: 1, lastname: true, born: false, address: 0)
-        expect(@query.to_s).to eql("projection={\"firstname\": 1, \"lastname\": 1, \"born\": 0, \"address\": 0}")
+        expect(@query.to_s).to eql("projection={\"firstname\":1,\"lastname\":1,\"born\":0,\"address\":0}")
       end
     end
 
     context 'when a String is passed in' do
       it 'sets the value of projection' do
         @query.projection('firstname, lastname')
-        expect(@query.to_s).to eql("projection={\"firstname\": 1, \"lastname\": 1}")
+        expect(@query.to_s).to eql("projection={\"firstname\":1,\"lastname\":1}")
       end
     end
 
@@ -132,14 +132,14 @@ describe MatconClient::Query do
     context 'when a Hash is passed in' do
       it 'sets the value of embeddable' do
         @query.embed(author: 1)
-        expect(@query.to_s).to eql("embeddable={\"author\": 1}")
+        expect(@query.to_s).to eql("embeddable={\"author\":1}")
       end
     end
 
     context 'when a String is passed in' do
       it 'sets the value of embeddable' do
         @query.embed('author')
-        expect(@query.to_s).to eql("embeddable={\"author\": 1}")
+        expect(@query.to_s).to eql("embeddable={\"author\":1}")
       end
     end
 
@@ -163,7 +163,7 @@ describe MatconClient::Query do
             .projection(firstname: true)
             .embed(author: 1)
 
-      expect(@query.to_s).to eql("page=2&max_results=30&sort=city,-name&where={\"lastname\": \"Doe\"}&projection={\"firstname\": 1}&embeddable={\"author\": 1}")
+      expect(@query.to_s).to eql("page=2&max_results=30&sort=city,-name&where={\"lastname\":\"Doe\"}&projection={\"firstname\":1}&embeddable={\"author\":1}")
     end
 
   end

@@ -35,6 +35,24 @@ module MatconClient
       has_attribute?(:_id) && @attributes[:_id].present?
     end
 
+    def save
+      if has_attribute?(:_id)
+        requestor.put(@attributes[:_id], @attributes)
+      else
+        model = requestor.post(nil, @attributes)
+        update_attributes(model.attributes)
+      end
+    end
+
+    def destroy
+      requestor.delete(@attributes[:_id])
+      freeze
+    end
+
+    def ==(other)
+        return self.id == other.id && self.class.to_s == other.class.to_s
+    end
+
     class << self
 
       extend Forwardable
@@ -46,6 +64,14 @@ module MatconClient
 
       def create(attrs)
         requestor.post(nil, attrs)
+      end
+
+      def destroy(id)
+        requestor.delete(id)
+      end
+
+      def all
+        requestor.get
       end
 
       def from_json(json)

@@ -168,9 +168,7 @@ module MatconClient
     # Turns a hash into a string with all keys being Strings and all
     # '=>'' being turned to ': '
     def format_hash(hash)
-      deep_stringify_keys(hash)
-        .to_s
-        .gsub('=>', ': ')
+      return hash.to_json
     end
 
     # Takes in a Hash and converts all its values to either 1 of 0
@@ -198,27 +196,5 @@ module MatconClient
       end
     end
 
-   # Convert keys to strings, recursively
-    def deep_stringify_keys(hash)
-      transform_hash(hash, :deep => true) {|hash, key, value|
-        hash[key.to_s] = value
-      }
-    end
-
-    def transform_hash(original, options={}, &block)
-      original.inject({}){|result, (key,value)|
-        value = if (options[:deep] && Hash === value)
-                  transform_hash(value, options, &block)
-                else
-                  if Array === value
-                    value.map{|v| transform_hash(v, options, &block)}
-                  else
-                    value
-                  end
-                end
-        block.call(result,key,value)
-        result
-      }
-    end
   end
 end
